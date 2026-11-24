@@ -1,8 +1,13 @@
+from pathlib import Path
+
 import joblib
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
+BASE_DIR = Path(__file__).resolve().parent
+DATA_PATH = BASE_DIR / "diabetes.csv"
+MODEL_PATH = BASE_DIR / "diabetes_model.pkl"
 
 FEATURE_COLUMNS = [
     "Glucose",
@@ -16,7 +21,7 @@ FEATURE_COLUMNS = [
 
 
 def train():
-    df = pd.read_csv("diabetes.csv")
+    df = pd.read_csv(DATA_PATH)
 
     # Match the notebook: drop Pregnancies, predict Outcome
     df = df.drop("Pregnancies", axis=1)
@@ -34,8 +39,8 @@ def train():
     accuracy = model.score(X_test, y_test)
     print(f"Accuracy: {accuracy:.4f}")
 
-    joblib.dump({"model": model, "features": FEATURE_COLUMNS}, "diabetes_model.pkl")
-    print("Saved diabetes_model.pkl")
+    joblib.dump({"model": model, "features": FEATURE_COLUMNS}, MODEL_PATH)
+    print(f"Saved {MODEL_PATH.name}")
 
 
 if __name__ == "__main__":

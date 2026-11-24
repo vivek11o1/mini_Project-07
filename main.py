@@ -23,9 +23,9 @@ class DiabetesFeatures(BaseModel):
 
 def load_artifact():
     if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            "Model artifact not found. Run `python train_model.py` first."
-        )
+        from train_model import train
+
+        train()
     return joblib.load(MODEL_PATH)
 
 
